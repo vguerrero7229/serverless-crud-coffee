@@ -1,0 +1,282 @@
+openapi: 3.0.3
+info:
+  title: Coffee Shop Menu API
+  description: |
+    API REST del menú (CRUD). **API Gateway → Lambda → DynamoDB** (sin integración proxy directa a DynamoDB).
+
+    Categorías permitidas: `espresso`, `brew`, `tea`, `pastry`, `seasonal`, `other`.
+
+    Tras desplegar: abre **`GET /docs`** en tu API (Swagger UI). También puedes usar [Swagger Editor](https://editor.swagger.io/) o Postman (**Import → File**).
+  version: 1.0.0
+
+servers:
+  # Cambia esta URL tras cada deploy (sale en la salida de serverless deploy → endpoints)
+  - url: https://9apo3qhmvh.execute-api.us-east-1.amazonaws.com/dev
+    description: dev stage (ejemplo)
+
+tags:
+  - name: Menu items
+    description: CRUD del menú
+
+paths:
+  /menu/items:
+    post:
+      tags: [Menu items]
+      summary: Crear ítem
+      operationId: createMenuItem
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateMenuItemRequest"
+            example:
+              name: Oat Flat White
+              priceCents: 495
+              category: espresso
+              description: Double ristretto, oat milk
+              available: true
+      responses:
+        "201":
+          description: Creado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateMenuItemResponse"
+        "400":
+          description: Validación fallida
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "500":
+          description: Error interno
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+
+    get:
+      tags: [Menu items]
+      summary: Listar ítems
+      operationId: listMenuItems
+      parameters:
+        - name: category
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [espresso, brew, tea, pastry, seasonal, other]
+      responses:
+        "200":
+          description: Lista ordenada por nombre
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListMenuItemsResponse"
+        "500":
+          description: Error interno
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+
+  /menu/items/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: UUID del ítem
+
+    get:
+      tags: [Menu items]
+      summary: Obtener un ítem
+      operationId: getMenuItem
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetMenuItemResponse"
+        "404":
+          description: No encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "500":
+          description: Error interno
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+
+    put:
+      tags: [Menu items]
+      summary: Actualizar ítem (parcial)
+      operationId: updateMenuItem
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateMenuItemRequest"
+            example:
+              priceCents: 525
+              available: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdateMenuItemResponse"
+        "400":
+          description: Validación fallida
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "404":
+          description: No encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "500":
+          description: Error interno
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+
+    delete:
+      tags: [Menu items]
+      summary: Eliminar ítem
+      operationId: deleteMenuItem
+      responses:
+        "200":
+          description: Eliminado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: boolean
+                  id:
+                    type: string
+                    format: uuid
+        "404":
+          description: No encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "500":
+          description: Error interno
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+
+components:
+  schemas:
+    MenuItem:
+      type: object
+      required: [id, name, description, priceCents, category, available, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        priceCents:
+          type: integer
+          minimum: 1
+        category:
+          type: string
+          enum: [espresso, brew, tea, pastry, seasonal, other]
+        available:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateMenuItemRequest:
+      type: object
+      required: [name, priceCents, category]
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        priceCents:
+          type: integer
+          minimum: 1
+        category:
+          type: string
+          enum: [espresso, brew, tea, pastry, seasonal, other]
+        available:
+          type: boolean
+          default: true
+
+    UpdateMenuItemRequest:
+      type: object
+      minProperties: 1
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        priceCents:
+          type: integer
+          minimum: 1
+        category:
+          type: string
+          enum: [espresso, brew, tea, pastry, seasonal, other]
+        available:
+          type: boolean
+
+    CreateMenuItemResponse:
+      type: object
+      properties:
+        item:
+          $ref: "#/components/schemas/MenuItem"
+
+    ListMenuItemsResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/MenuItem"
+        count:
+          type: integer
+
+    GetMenuItemResponse:
+      type: object
+      properties:
+        item:
+          $ref: "#/components/schemas/MenuItem"
+
+    UpdateMenuItemResponse:
+      type: object
+      properties:
+        item:
+          $ref: "#/components/schemas/MenuItem"
+
+    ErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string

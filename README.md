@@ -28,6 +28,12 @@ Base URL after deploy: API Gateway stage URL printed by `serverless deploy` (pat
 | `GET` | `/menu/items/{id}` | `getMenuItem` | Get one |
 | `PUT` | `/menu/items/{id}` | `updateMenuItem` | Partial update |
 | `DELETE` | `/menu/items/{id}` | `deleteMenuItem` | Delete |
+| `GET` | `/docs` | `swaggerDocs` | **Swagger UI** (lista endpoints y Try it out en el navegador) |
+| `GET` | `/openapi.yaml` | `swaggerDocs` | Especificación OpenAPI (URL que usa Swagger UI; server base inyectado en runtime) |
+
+Abre en el navegador (sustituye por tu URL de stage):
+
+`https://YOUR_API_ID.execute-api.us-east-1.amazonaws.com/dev/docs`
 
 ### Menu item model
 
@@ -67,10 +73,11 @@ curl -sS -X DELETE "$BASE/menu/items/ITEM_ID"
 
 ### OpenAPI (Swagger) en el navegador
 
-- Archivo: [`docs/openapi.yaml`](./docs/openapi.yaml).
-- Abre [Swagger Editor](https://editor.swagger.io/), **File → Import file** y elige `openapi.yaml`, o pega el contenido.
-- En la sección **servers**, cambia la URL si redeployaste y tu API ID cambió.
-- Pulsa **Try it out** en cada operación (misma URL base que Postman).
+**Opción A — integrado en tu API (recomendado)**  
+Tras desplegar, abre **`GET /docs`** en el navegador (ver tabla arriba). Ahí tienes Swagger UI que carga **`/openapi.yaml`** del mismo API Gateway; la URL base del deployment se inyecta automáticamente para **Try it out**.
+
+**Opción B — Swagger Editor aparte**  
+Archivo [`docs/openapi.yaml`](./docs/openapi.yaml): impórtalo en [Swagger Editor](https://editor.swagger.io/) y ajusta **servers** si cambió tu endpoint.
 
 También puedes **Import → OpenAPI** en Postman desde ese YAML.
 

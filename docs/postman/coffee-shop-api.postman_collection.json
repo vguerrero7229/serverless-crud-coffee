@@ -1,0 +1,98 @@
+{
+  "info": {
+    "name": "Coffee Shop Menu API",
+    "description": "CRUD del menú (API Gateway → Lambda → DynamoDB). Tras **Create menu item**, el `itemId` se guarda en variables de colección para los demás requests.\n\nEdita la variable **baseUrl** si cambias de stage o redeploy.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://9apo3qhmvh.execute-api.us-east-1.amazonaws.com/dev"
+    },
+    {
+      "key": "itemId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Create menu item",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Oat Flat White\",\n  \"priceCents\": 495,\n  \"category\": \"espresso\",\n  \"description\": \"From Postman collection\",\n  \"available\": true\n}"
+        },
+        "url": "{{baseUrl}}/menu/items"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "  const data = pm.response.json();",
+              "  if (data.item && data.item.id) {",
+              "    pm.collectionVariables.set('itemId', data.item.id);",
+              "    console.log('Saved itemId:', data.item.id);",
+              "  }",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "List menu items",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/menu/items"
+      }
+    },
+    {
+      "name": "List menu items by category",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/menu/items?category=espresso"
+      }
+    },
+    {
+      "name": "Get menu item by id",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/menu/items/{{itemId}}"
+      }
+    },
+    {
+      "name": "Update menu item",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"priceCents\": 525,\n  \"available\": true\n}"
+        },
+        "url": "{{baseUrl}}/menu/items/{{itemId}}"
+      }
+    },
+    {
+      "name": "Delete menu item",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/menu/items/{{itemId}}"
+      }
+    }
+  ]
+}

@@ -1,4 +1,17 @@
-# Five Lambda functions — CRUD via API Gateway → Lambda → DynamoDB (no API Gateway DynamoDB proxy)
+# Five Lambdas CRUD + one docs Lambda (Swagger UI + OpenAPI YAML served by Lambda)
+swaggerDocs:
+  handler: src/handlers/swagger.handler
+  description: Swagger UI at GET /docs and OpenAPI spec at GET /openapi.yaml
+  events:
+    - http:
+        path: docs
+        method: get
+        cors: true
+    - http:
+        path: openapi.yaml
+        method: get
+        cors: true
+
 createMenuItem:
   handler: src/handlers/create.handler
   description: Create a menu item (POST)
