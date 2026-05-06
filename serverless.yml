@@ -1,0 +1,12 @@
+# Coffee Shop Menu API — entry stack (split YAML under ./config/)
+service: coffee-shop-api
+
+frameworkVersion: '3'
+
+plugins:
+  - serverless-esbuild
+
+custom: ${file(./config/custom.yml)}
+provider: ${file(./config/provider.yml)}
+functions: ${file(./config/functions.yml)}
+resources: ${file(./config/resources.yml)}

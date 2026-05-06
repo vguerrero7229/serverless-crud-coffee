@@ -1,0 +1,11 @@
+node_modules/
+.serverless/
+dist/
+coverage/
+*.log
+.env
+.env.*
+!.env.example
+.aws-sam/
+.DS_Store
+*.tsbuildinfo

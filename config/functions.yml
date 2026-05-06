@@ -1,0 +1,45 @@
+# Five Lambda functions — CRUD via API Gateway → Lambda → DynamoDB (no API Gateway DynamoDB proxy)
+createMenuItem:
+  handler: src/handlers/create.handler
+  description: Create a menu item (POST)
+  events:
+    - http:
+        path: menu/items
+        method: post
+        cors: true
+
+listMenuItems:
+  handler: src/handlers/list.handler
+  description: List menu items (GET), optional ?category=
+  events:
+    - http:
+        path: menu/items
+        method: get
+        cors: true
+
+getMenuItem:
+  handler: src/handlers/getOne.handler
+  description: Get one menu item by id (GET)
+  events:
+    - http:
+        path: menu/items/{id}
+        method: get
+        cors: true
+
+updateMenuItem:
+  handler: src/handlers/update.handler
+  description: Update a menu item (PUT)
+  events:
+    - http:
+        path: menu/items/{id}
+        method: put
+        cors: true
+
+deleteMenuItem:
+  handler: src/handlers/delete.handler
+  description: Delete a menu item (DELETE)
+  events:
+    - http:
+        path: menu/items/{id}
+        method: delete
+        cors: true

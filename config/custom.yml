@@ -1,0 +1,10 @@
+# Shared Serverless custom variables + esbuild packaging
+tableName: coffee-menu-${sls:stage}
+
+esbuild:
+  bundle: true
+  minify: true
+  sourcemap: true
+  target: node20
+  platform: node
+  concurrency: 10
