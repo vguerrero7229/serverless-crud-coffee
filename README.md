@@ -59,6 +59,21 @@ curl -sS -X PUT "$BASE/menu/items/ITEM_ID" \
 curl -sS -X DELETE "$BASE/menu/items/ITEM_ID"
 ```
 
+### Postman
+
+1. Import [`docs/postman/coffee-shop-api.postman_collection.json`](./docs/postman/coffee-shop-api.postman_collection.json) (**Import → File**).
+2. En la colección, variables **`baseUrl`** y **`itemId`**: deja `baseUrl` como tu URL de stage `dev` (la que imprime `serverless deploy`). **`itemId`** queda vacío hasta que ejecutes **Create menu item** (el test guarda el UUID automáticamente).
+3. Orden sugerido: Create → List → Get → Update → Delete.
+
+### OpenAPI (Swagger) en el navegador
+
+- Archivo: [`docs/openapi.yaml`](./docs/openapi.yaml).
+- Abre [Swagger Editor](https://editor.swagger.io/), **File → Import file** y elige `openapi.yaml`, o pega el contenido.
+- En la sección **servers**, cambia la URL si redeployaste y tu API ID cambió.
+- Pulsa **Try it out** en cada operación (misma URL base que Postman).
+
+También puedes **Import → OpenAPI** en Postman desde ese YAML.
+
 ## Prerequisites
 
 - Node.js **20+** (see [`.nvmrc`](./.nvmrc))
@@ -89,13 +104,27 @@ npm run remove:dev
 npm run remove:prod
 ```
 
+## Default branch: `master`
+
+CI/CD está configurado para **`master`** (requisito típico del challenge: deploy al hacer push a `master`).
+
+1. En GitHub: **Settings → General → Default branch** → cambia a **`master`** (si aún está en `main`).
+2. Si en tu máquina sigues en `main`, renómbrala y publícala:
+
+```bash
+git branch -m main master
+git push -u origin master
+```
+
+Luego en GitHub puedes borrar la rama remota `main` si ya no la necesitas (**Branches**).
+
 ## CI/CD (GitHub Actions)
 
 Two workflows:
 
-1. **[`.github/workflows/ci.yml`](./.github/workflows/ci.yml)** — on every push / PR to `main` or `master`: install, typecheck, lint, tests, `serverless print` (no AWS deploy).
+1. **[`.github/workflows/ci.yml`](./.github/workflows/ci.yml)** — on every push / PR to **`master`**: install, typecheck, lint, tests, `serverless print` (no AWS deploy).
 2. **[`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml)** — **multi-stage** deployments:
-   - **Push** to `main` / `master`: deploy **`dev`** (job `deploy-dev`, GitHub Environment **`development`**).
+   - **Push** to **`master`**: deploy **`dev`** (job `deploy-dev`, GitHub Environment **`development`**).
    - **Manual** “Run workflow”: choose **`dev`** or **`prod`** (job `deploy-manual`; Environment **`development`** or **`production`**).
 
 ### Repository setup
@@ -128,6 +157,6 @@ Record a short **Loom** (or similar) explaining:
 - [x] Node.js / TypeScript  
 - [x] Serverless IaC, DynamoDB table in stack  
 - [x] REST API Gateway + **5 Lambdas** (CRUD + list), **no** API Gateway → DynamoDB proxy integration  
-- [x] GitHub Actions: deploy on push to **`main` / `master`**, plus manual **`prod`**  
+- [x] GitHub Actions: deploy on push to **`master`**, plus manual **`prod`**  
 - [ ] Public repo + **frequent commits** (keep iterating after clone)  
 - [ ] **Screenshots** + **Loom** linked above  
