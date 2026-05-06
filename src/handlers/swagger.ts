@@ -28,7 +28,7 @@ function apiBaseUrl(event: APIGatewayProxyEvent): string {
 
 /** Replace static servers block so Try it out hits this deployment */
 function withDynamicServer(raw: string, baseUrl: string): string {
-  return raw.replace(/^servers:[\s\S]*?(?=^tags:)/m, `servers:\n  - url: ${baseUrl}\n    description: Este despliegue\n\n`);
+  return raw.replace(/^servers:[\s\S]*?(?=^tags:)/m, `servers:\n  - url: ${baseUrl}\n    description: This deployment\n\n`);
 }
 
 const SWAGGER_HTML = `<!DOCTYPE html>

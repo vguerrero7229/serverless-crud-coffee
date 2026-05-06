@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Coffee Shop Menu API",
-    "description": "CRUD del menú (API Gateway → Lambda → DynamoDB). Tras **Create menu item**, el `itemId` se guarda en variables de colección para los demás requests.\n\nEdita la variable **baseUrl** si cambias de stage o redeploy.",
+    "description": "Coffee shop menu CRUD (API Gateway → Lambda → DynamoDB). After **Create menu item**, `itemId` is saved to collection variables for the other requests.\n\nEdit **baseUrl** if you change stage or redeploy to a new URL.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
