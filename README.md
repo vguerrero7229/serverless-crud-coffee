@@ -146,7 +146,9 @@ Two workflows:
 
 ### Screenshots for reviewers
 
-See **[`docs/ci-cd/README.md`](./docs/ci-cd/README.md)** for filenames and what each screenshot should show (`01-github-actions-ci.png` … `04-workflow-dispatch-prod.png`). After pipelines run, add PNGs under [`docs/ci-cd/`](./docs/ci-cd/) and embed them in this README if you want inline images.
+Collected screenshots and other proof that the stack, CI/CD, and API behave correctly are stored in **[`evidence/`](./evidence/)** (deploy logs, GitHub Actions, Postman/Swagger, AWS console, etc.). Open that folder in the repo to review all images in one place.
+
+For a suggested naming checklist you can still use **[`docs/ci-cd/README.md`](./docs/ci-cd/README.md)** when organizing captures before copying them into `evidence/`.
 
 ## Walkthrough video
 
@@ -158,12 +160,3 @@ Record a short **Loom** (or similar) covering:
 - CI/CD workflows and GitHub Environments  
 
 **Loom link:** _add your URL after recording_
-
-## Challenge checklist
-
-- [x] Node.js / TypeScript  
-- [x] Serverless IaC, DynamoDB table in stack  
-- [x] REST API Gateway + **five Lambdas** for CRUD / list, **no** API Gateway → DynamoDB proxy; plus optional **`swaggerDocs`** Lambda for `/docs`  
-- [x] GitHub Actions: deploy on push to **`master`**, plus manual **`prod`**  
-- [ ] Public repo + **regular commits**  
-- [ ] **Screenshots** + **Loom** linked above  
