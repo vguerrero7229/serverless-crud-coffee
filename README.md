@@ -1,4 +1,4 @@
-# Coffee Shop Menu API (Serverless CRUD)
+# Victor Guerrero - Coffee Shop Menu API (Serverless CRUD)
 
 Public demo REST API for a **coffee shop menu**: create, list, read, update, and delete items stored in **Amazon DynamoDB**. Traffic flows **Amazon API Gateway (REST)** → **AWS Lambda** (Node.js 20, TypeScript) → **DynamoDB**. There is **no** API Gateway **service proxy / direct DynamoDB integration** — persistence is handled only in Lambda (`@aws-sdk/lib-dynamodb`).
 

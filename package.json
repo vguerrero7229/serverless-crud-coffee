@@ -2,7 +2,7 @@
   "name": "serverless-crud-coffee",
   "version": "1.0.0",
   "private": true,
-  "description": "Coffee Shop menu REST API — Serverless Framework, API Gateway + Lambda + DynamoDB",
+  "description": "Victor Guerrero - Coffee Shop Menu REST API — Serverless Framework, API Gateway + Lambda + DynamoDB",
   "engines": {
     "node": ">=20"
   },

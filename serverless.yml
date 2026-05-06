@@ -1,4 +1,4 @@
-# Coffee Shop Menu API — entry stack (split YAML under ./config/)
+# Victor Guerrero - Coffee Shop Menu API — entry stack (split YAML under ./config/)
 service: coffee-shop-api
 
 frameworkVersion: '3'

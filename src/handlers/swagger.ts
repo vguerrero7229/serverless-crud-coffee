@@ -35,7 +35,7 @@ const SWAGGER_HTML = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <title>Coffee Shop API — Swagger UI</title>
+  <title>Victor Guerrero - Coffee Shop Menu API — Swagger UI</title>
   <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui.css" crossorigin/>
 </head>
 <body>

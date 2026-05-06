@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Coffee Shop Menu API
+  title: Victor Guerrero - Coffee Shop Menu API
   description: |
     REST API for the coffee shop menu (CRUD). **API Gateway → Lambda → DynamoDB** (no direct API Gateway → DynamoDB proxy).
 
