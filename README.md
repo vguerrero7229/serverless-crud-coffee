@@ -152,11 +152,4 @@ For a suggested naming checklist you can still use **[`docs/ci-cd/README.md`](./
 
 ## Walkthrough video
 
-Record a short **Loom** (or similar) covering:
-
-- Domain choice (coffee shop menu) and API behaviour  
-- [`serverless.yml`](./serverless.yml) and [`config/*.yml`](./config/)  
-- Lambda handlers under [`src/handlers/`](./src/handlers/) and DynamoDB access in [`src/services/menuRepository.ts`](./src/services/menuRepository.ts)  
-- CI/CD workflows and GitHub Environments  
-
-**Loom link:** _add your URL after recording_
+[Watch the Walkthrough on Google Drive](https://drive.google.com/file/d/1kdgg7VdgD_SMKBv1toSbIUj5LMnblRIY/view?usp=sharing)
